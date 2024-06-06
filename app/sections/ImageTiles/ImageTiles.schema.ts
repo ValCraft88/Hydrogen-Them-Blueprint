@@ -1,34 +1,56 @@
-import {BUTTONS, FLEX_POSITIONS, CROP_POSITIONS} from '~/settings/common';
+import {
+  BUTTONS,
+  COLORS,
+  CONTENT_ALIGN,
+  FLEX_POSITIONS,
+  CROP_POSITIONS,
+  HEADING_SIZES,
+} from '~/settings/common';
 import {containerSettings} from '~/settings/container';
 
 export function Schema() {
   return {
     category: 'Media',
-    label: 'Image Tiles Row',
+    label: 'Image Tiles Slider',
     key: 'image-tiles',
     previewSrc:
       'https://cdn.shopify.com/s/files/1/0671/5074/1778/files/image-tiles-preview.jpg?v=1675730325',
     fields: [
       {
-        label: 'Heading',
-        name: 'heading',
-        component: 'text',
-      },
-      {
-        label: 'Subheading',
-        name: 'subheading',
-        component: 'text',
+        label: 'Header Settings',
+        name: 'header',
+        component: 'group',
+        description: 'Heading, subheading, alignment',
+        fields: [
+          {
+            label: 'Heading',
+            name: 'heading',
+            component: 'text',
+          },
+          {
+            label: 'Subheading',
+            name: 'subheading',
+            component: 'text',
+          },
+          {
+            label: 'Alignment',
+            name: 'alignment',
+            component: 'radio-group',
+            direction: 'horizontal',
+            variant: 'radio',
+            options: CONTENT_ALIGN.mobile,
+            defaultValue: 'text-center items-center',
+          },
+        ],
       },
       {
         label: 'Tiles',
         name: 'tiles',
-        description: 'Min of 2 tiles, max of 3 tiles',
         component: 'group-list',
+        description:
+          'Maximum number of slides is determined by tiles per view on desktop.\n\nThe slider is only used on mobile and tablet views.',
         itemProps: {
           label: '{{item.heading}}',
-        },
-        validate: {
-          maxItems: 3,
         },
         fields: [
           {
@@ -153,7 +175,7 @@ export function Schema() {
         name: 'content',
         component: 'group',
         description:
-          'Dark overlay, content position, button styles, clickable image, hide buttons',
+          'Dark overlay, content position, content alignment, tile heading size, button styles, clickable image, hide buttons',
         fields: [
           {
             label: 'Dark Overlay',
@@ -170,6 +192,22 @@ export function Schema() {
             name: 'contentPosition',
             component: 'select',
             options: FLEX_POSITIONS.mobile,
+          },
+          {
+            label: 'Content Alignment',
+            name: 'contentAlign',
+            component: 'select',
+            options: [
+              {label: 'Left', value: 'left'},
+              {label: 'Center', value: 'center'},
+              {label: 'Right', value: 'right'},
+            ],
+          },
+          {
+            label: 'Tile Heading Size',
+            name: 'tileHeadingSize',
+            component: 'select',
+            options: HEADING_SIZES,
           },
           {
             label: 'Primary Button Style',
@@ -206,6 +244,8 @@ export function Schema() {
         defaultValue: {
           darkOverlay: true,
           contentPosition: 'justify-center items-end',
+          contentAlign: 'center',
+          tileHeadingSize: 'text-h3',
           primaryButtonStyle: 'btn-inverse-light',
           secondaryButtonStyle: 'btn-inverse-light',
           clickableImage: true,
@@ -216,8 +256,30 @@ export function Schema() {
         label: 'Section Settings',
         name: 'section',
         component: 'group',
-        description: 'Image aspect ratio, full width',
+        description:
+          'Tiles per view, image aspect ratio, heading text color, full width',
         fields: [
+          {
+            label: 'Tiles Per View (desktop)',
+            name: 'tilesPerViewDesktop',
+            description:
+              'On desktop, the slider will be inactive and instead show this number of slides in one view. This number should represent the maximum number of tiles, and all other tiles per view should be equal or less than this number.',
+            component: 'number',
+          },
+          {
+            label: 'Tiles Per View (tablet)',
+            name: 'tilesPerViewTablet',
+            component: 'number',
+            description:
+              'Save and refresh page to observe change\nTip: use decimals to show partial tiles',
+          },
+          {
+            label: 'Tiles Per View (mobile)',
+            name: 'tilesPerViewMobile',
+            component: 'number',
+            description:
+              'Save and refresh page to observe change\nTip: use decimals to show partial tiles',
+          },
           {
             label: 'Image Aspect Ratio',
             name: 'aspectRatio',
@@ -235,6 +297,12 @@ export function Schema() {
             ],
           },
           {
+            label: 'Heading Text Color',
+            name: 'textColor',
+            component: 'select',
+            options: COLORS,
+          },
+          {
             label: 'Full Width',
             name: 'fullWidth',
             component: 'toggle',
@@ -246,7 +314,11 @@ export function Schema() {
           },
         ],
         defaultValue: {
+          tilesPerViewDesktop: 3,
+          tilesPerViewTablet: 2.4,
+          tilesPerViewMobile: 1.4,
           aspectRatio: 'aspect-[3/4]',
+          textColor: 'var(--text)',
           fullWidth: false,
         },
       },
