@@ -20,6 +20,7 @@ export interface RivoWaysToEarnCms {
     signInToEarnText?: string;
   };
   section?: {
+    anchorId?: string;
     aboveTheFold?: boolean;
     fullWidth?: boolean;
     gridColumns?: string;

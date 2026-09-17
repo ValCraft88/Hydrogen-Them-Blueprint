@@ -104,6 +104,14 @@ export function Schema() {
         description: 'Above the fold, grid columns, text color, full width',
         fields: [
           {
+            label: 'Anchor ID',
+            name: 'anchorId',
+            component: 'text',
+            description:
+              'Optional id for in-page links, e.g. "rivo-ways-to-earn" — link to it from the loyalty hero as #rivo-ways-to-earn',
+          },
+
+          {
             label: 'Above The Fold',
             name: 'aboveTheFold',
             component: 'toggle',
